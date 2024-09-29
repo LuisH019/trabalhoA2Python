@@ -1,23 +1,10 @@
-from gerenciarLivros import GerenciarLivros
+
+from menu import menu
 
 if __name__ == '__main__':
-   gerLivros = GerenciarLivros()
+   menu = menu()
 
-   titulo = 'aaaaaa'
-   autor='aaaaaaaasdafsafdsa'
-   anoPublicacao = 2000
-   preco=12.3
+   menu.menu()
 
-   gerLivros.criar(titulo, autor, anoPublicacao, preco)
 
-   titulo = 'bbbbbb'
-   autor = 'aaaaabvcbcvbrghrfgaaasdafsafdsa'
-   anoPublicacao = 20021
-   preco = 12.3
-
-   gerLivros.criar(titulo, autor, anoPublicacao, preco)
-
-   gerLivros.mostrar()
-
-   print(gerLivros.buscar('aaaaa'))
 

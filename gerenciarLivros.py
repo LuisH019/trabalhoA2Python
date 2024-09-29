@@ -24,9 +24,15 @@ class GerenciarLivros:
 
         self.livrosDf = self.livrosDf.reset_index(drop=True)
 
-    def buscar(self, titulo:str):
-        return self.livrosDf[(self.livrosDf['titulo'] == titulo)]
+    def buscarAutor(self, autor:str):
+        return self.livrosDf[(self.livrosDf['autor'] == autor)]
 
+    def modificarPreco(self, titulo: str, novo_preco: float):
+        if titulo in self.livrosDf['titulo'].values:
+            self.livrosDf.loc[self.livrosDf['titulo'] == titulo, 'preco'] = novo_preco
+            print(f"Preço do livro '{titulo}' atualizado para R$ {novo_preco:.2f}.")
+        else:
+            print(f"Livro '{titulo}' não encontrado.")
     def mostrar(self):
         print(self.livrosDf)
 
