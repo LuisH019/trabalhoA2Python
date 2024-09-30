@@ -1,10 +1,10 @@
 
-from menu import menu
+from menu import Menu
 
 if __name__ == '__main__':
-   menu = menu()
+   menu = Menu()
 
-   menu.menu()
+   menu.exibirMenu()
 
 
 

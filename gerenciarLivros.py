@@ -11,28 +11,52 @@ class GerenciarLivros:
             'preco':[]
         })
 
+        self.autoIncrement = 0
+
     def criar(self, titulo:str, autor:str, anoPublicacao:int, preco:float):
         novoLivro = {
             'titulo':titulo,
             'autor':autor,
-            'id':int(len(self.livrosDf)),
+            'id':self.autoIncrement,
             'anoPublicacao':anoPublicacao,
             'preco':preco
         }
 
         self.livrosDf = self.livrosDf._append(novoLivro, ignore_index = True)
-
         self.livrosDf = self.livrosDf.reset_index(drop=True)
 
-    def buscarAutor(self, autor:str):
-        return self.livrosDf[(self.livrosDf['autor'] == autor)]
+        print("Livro criado com sucesso!")
 
-    def modificarPreco(self, titulo: str, novo_preco: float):
-        if titulo in self.livrosDf['titulo'].values:
-            self.livrosDf.loc[self.livrosDf['titulo'] == titulo, 'preco'] = novo_preco
-            print(f"Preço do livro '{titulo}' atualizado para R$ {novo_preco:.2f}.")
+        self.autoIncrement += 1
+
+    def buscar(self, op: int, valor: str):
+        variaveis = ['titulo', 'autor']
+
+        if valor in self.livrosDf[variaveis[op]].values:
+            resultado = self.livrosDf[(self.livrosDf[variaveis[op]] == valor)]
+            
+            print("Livro encontrado com sucesso!")
+            print (resultado)
+
+            return  resultado['id']
         else:
-            print(f"Livro '{titulo}' não encontrado.")
+            print ("ERRO: Livro não encontrado!")
+
+            return None
+    
+    # def buscarAutor(self, autor:str):
+    #     return self.livrosDf[(self.livrosDf['autor'] == autor)]
+
+    def apagar (self, idBusca: int):
+        self.livrosDf.drop(idBusca)
+
+        print("Livro apagado com sucesso!")
+
+    def editarPreco(self, idBusca: int, novo_preco: float):
+        self.livrosDf.loc[self.livrosDf['id'] == idBusca, 'preco'] = novo_preco
+            
+        print(f"Preço do livro atualizado para R$ {novo_preco:.2f}!")
+
     def mostrar(self):
         print(self.livrosDf)
 
