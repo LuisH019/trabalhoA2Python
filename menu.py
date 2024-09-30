@@ -1,11 +1,11 @@
 import os
 import time
-from gerenciarLivros import GerenciarLivros
+from gerenciadorLivros import GerenciadorLivros
 
 
 class Menu:
     def __init__(self):
-        self.gerLivros = GerenciarLivros()
+        self.gerLivros = GerenciadorLivros()
 
     def exibirMenu(self):
         op = -1
@@ -22,7 +22,6 @@ class Menu:
             print("0. Sair")
 
             op = input("Digite: ")
-            
             os.system('cls')
 
             if op == '1':
@@ -42,18 +41,20 @@ class Menu:
             elif op == '3':
                 print("=====  BUSCAR/EDITAR/APAGAR LIVRO =====")
 
-                print("Deseja ver a lista de livros antes?")
+                print("Deseja ver os livros cadastrados antes?")
                 print("1. Sim")
                 print("2. Não")
                 
                 op = input("Digite: ")
-                
                 os.system('cls')
 
                 if op == '1':
                     print("===== LIVROS CADASTRADOS =====")
                     self.gerLivros.mostrar()
                     print("\n")
+                elif op != '1' and op != '2':
+                    print("ERRO: Valor inválido!")
+                    continue
 
                 print("Com qual atributo deseja pesquisar?")
                 print("1. Titulo")
@@ -61,35 +62,39 @@ class Menu:
 
                 op = input("Digite: ")
 
-                valor = input ("Digite o valor que deseja pesquisar: ")
+                if op == '1' or op == '2':
+                    texto = input ("Digite o texto que deseja pesquisar: ")
+                    os.system('cls')
 
-                resultadoBusca = self.gerLivros.buscar(int(op) - 1, valor)
+                    resultadoBusca = self.gerLivros.buscar(int(op) - 1, texto)
 
-                if resultadoBusca:
-                    print("Escolha uma opção: ")
-                    print("1. Editar o Preco do Livro")
-                    print("2. Apagar Livro")
-                    print("3. Voltar para o menu principal")
+                    if resultadoBusca != -1:
+                        print("Escolha uma opção: ")
+                        print("1. Editar o Preco do Livro")
+                        print("2. Apagar Livro")
+                        print("3. Voltar para o menu principal")
 
-                    op2 = input("Digite: ")
+                        op2 = input("Digite: ")
+                        os.system('cls')
 
-                    if op2 == '1':
-                        print("===== EDITAR PRECO DO LIVRO =====")
+                        if op2 == '1':
+                            print("===== EDITAR PRECO DO LIVRO =====")
 
-                        novo_preco = float(input("Digite o novo preço: "))
+                            novo_preco = float(input("Digite o novo preço: "))
 
-                        self.gerLivros.editarPreco(resultadoBusca.index, novo_preco)
+                            self.gerLivros.editarPreco(resultadoBusca, novo_preco)
 
-                    elif op2 == '2':
-                        print("===== APAGAR LIVRO =====")
-                        self.gerLivros.apagar(resultadoBusca.index)
+                        elif op2 == '2':
+                            print("===== APAGAR LIVRO =====")
+                            self.gerLivros.apagar(resultadoBusca)
 
-                    elif op2 == '3':
-                        None
+                        elif op2 == '3':
+                            None
 
-                    else:
-                        print("ERRO: Valor inválido!")
-
+                        else:
+                            print("ERRO: Valor inválido!")
+                else:
+                    print("ERRO: Valor inválido!")
 
             elif op == '0':
                 print("Saindo do programa...")
@@ -98,5 +103,5 @@ class Menu:
             else:
                 print("ERRO: Valor inválido!")
 
-            time.sleep(1)
+            time.sleep(2)
 
