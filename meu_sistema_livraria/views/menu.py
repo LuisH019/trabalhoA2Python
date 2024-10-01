@@ -1,6 +1,6 @@
 import os
 import time
-from gerenciadorLivros import GerenciadorLivros
+from meu_sistema_livraria.controller.gerenciadorLivros import GerenciadorLivros
 
 
 class Menu:
@@ -12,13 +12,17 @@ class Menu:
 
         while op != 0:
             os.system('cls')
-
             print("===== MENU PRINCIPAL =====")
 
+            self.gerLivros.teste()
+            
             print("Escolha uma opção: ")
             print("1. Adicionar Livro")
             print("2. Mostrar Todos os Livros")
             print("3. Buscar/Editar/Apagar Livro")
+            print("4. Fazer Backup do Banco de Daddos")
+            print("5. Exportar Dados para CSV")
+            print("6. Importar Dados de CSV")
             print("0. Sair")
 
             op = input("Digite: ")
@@ -95,6 +99,15 @@ class Menu:
                             print("ERRO: Valor inválido!")
                 else:
                     print("ERRO: Valor inválido!")
+            
+            elif op == '4':
+                self.gerLivros.backupSql()
+            
+            elif op == '5':
+                self.gerLivros.exportarCsv()
+
+            elif op == '6':
+                self.gerLivros.importarCsv()
 
             elif op == '0':
                 print("Saindo do programa...")
