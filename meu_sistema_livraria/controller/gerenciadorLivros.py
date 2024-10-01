@@ -1,5 +1,5 @@
 import pandas as pd
-from meu_sistema_livraria.util.arquivos import Arquivos
+from util.arquivos import Arquivos
 
 class GerenciadorLivros:
     def __init__(self):

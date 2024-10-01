@@ -7,10 +7,10 @@ import shutil
 
 class Arquivos:
     def __init__(self):
-        root = Path('meu_sistema_livraria')
-        self.dbDir = (root/'data'/'livraria.db')
-        self.bkpsDir = (root/'backups')
-        self.csvDir = (root/'exports'/'livros_exportados.csv')
+        # root = Path('meu_sistema_livraria')
+        self.dbDir = Path('data/livraria.db')
+        self.bkpsDir = Path('backups')
+        self.csvDir = Path('exports/livros_exportados.csv')
 
         self.sqlConn = sqlite3.connect(f"{self.dbDir}")
         self.cur = self.sqlConn.cursor()

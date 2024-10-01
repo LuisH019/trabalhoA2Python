@@ -1,7 +1,7 @@
 import os
 import time
-from meu_sistema_livraria.controller.gerenciadorLivros import GerenciadorLivros
-from meu_sistema_livraria.util.inputs import Inputs
+from controller.gerenciadorLivros import GerenciadorLivros
+from util.inputs import Inputs
 
 
 class Menu:
