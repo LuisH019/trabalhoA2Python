@@ -22,8 +22,8 @@ class GerenciadorLivros:
 
             self.autoIncrement = self.livrosDf.tail(1)['id'].tolist()[0] + 1
 
-    def teste(self):
-        print (self.arq.teste())
+    # def teste(self):
+    #     print (self.arq.teste())
 
     def criar(self, titulo:str, autor:str, anoPublicacao:int, preco:float):
         novoLivro = {
@@ -40,7 +40,10 @@ class GerenciadorLivros:
         print("Livro criado com sucesso!")
 
         self.arq.escreverSql(self.livrosDf)
+        
         self.autoIncrement += 1
+
+        self.arq.backupSql()
 
     def mostrar(self):
         print(self.livrosDf)
@@ -67,15 +70,19 @@ class GerenciadorLivros:
 
         self.arq.escreverSql(self.livrosDf)
 
+        self.arq.backupSql()
+
     def editarPreco(self, idBusca: int, novo_preco: float):
         self.livrosDf.loc[idBusca, 'preco'] = novo_preco
             
         print(f"Preço do livro atualizado para R$ {novo_preco:.2f}!")
 
         self.arq.escreverSql(self.livrosDf)
+
+        self.arq.backupSql()
     
     def backupSql(self):
-        self.arq.backupSql(self.livrosDf)
+        self.arq.backupSql()
 
         print("Backup feito com sucesso!")
 
@@ -85,6 +92,8 @@ class GerenciadorLivros:
         print("Exportacoes feita com sucesso!")
 
     def importarCsv(self):
-        self.livrosDf = self.arq.importarCsv
+        self.livrosDf = self.arq.importarCsv()
+
+        self.arq.escreverSql(self.livrosDf)
 
         print("Importacao feita com sucesso!")

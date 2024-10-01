@@ -1,11 +1,13 @@
 import os
 import time
 from meu_sistema_livraria.controller.gerenciadorLivros import GerenciadorLivros
+from meu_sistema_livraria.util.inputs import Inputs
 
 
 class Menu:
     def __init__(self):
         self.gerLivros = GerenciadorLivros()
+        self.inpt = Inputs()
 
     def exibirMenu(self):
         op = -1
@@ -14,7 +16,7 @@ class Menu:
             os.system('cls')
             print("===== MENU PRINCIPAL =====")
 
-            self.gerLivros.teste()
+            # self.gerLivros.teste()
             
             print("Escolha uma opção: ")
             print("1. Adicionar Livro")
@@ -25,96 +27,85 @@ class Menu:
             print("6. Importar Dados de CSV")
             print("0. Sair")
 
-            op = input("Digite: ")
+            op = self.inpt.input("Digite: ", 0, 6)
+
             os.system('cls')
 
-            if op == '1':
+            if op == 1:
                 print("===== ADICIONAR LIVRO =====")
 
                 titulo = input("Titulo: ")
                 autor = input("Autor: ")
-                anoPublicacao = int(input("Ano de Publicacao: "))
-                preco = float(input("Preço: "))
-
+                anoPublicacao = int (self.inpt.input("Ano de Publicacao: ", 0, 3000))
+                preco = self.inpt.input("Preço: ", 0, 99999999)
                 self.gerLivros.criar(titulo, autor, anoPublicacao, preco)
 
-            elif op == '2':
+            elif op == 2:
                 print("===== LIVROS CADASTRADOS =====")
                 self.gerLivros.mostrar()
 
-            elif op == '3':
+            elif op == 3:
                 print("=====  BUSCAR/EDITAR/APAGAR LIVRO =====")
 
                 print("Deseja ver os livros cadastrados antes?")
                 print("1. Sim")
                 print("2. Não")
                 
-                op = input("Digite: ")
+                op = self.inpt.input("Digite: ", 1, 2)
                 os.system('cls')
 
-                if op == '1':
+                if op == 1:
                     print("===== LIVROS CADASTRADOS =====")
                     self.gerLivros.mostrar()
                     print("\n")
-                elif op != '1' and op != '2':
-                    print("ERRO: Valor inválido!")
-                    continue
 
                 print("Com qual atributo deseja pesquisar?")
                 print("1. Titulo")
                 print("2. Autor")
 
-                op = input("Digite: ")
+                op = self.inpt.input("Digite: ", 1, 2)
 
-                if op == '1' or op == '2':
-                    texto = input ("Digite o texto que deseja pesquisar: ")
+                texto = input ("Digite o texto que deseja pesquisar: ")
+                os.system('cls')
+
+                resultadoBusca = self.gerLivros.buscar(int(op) - 1, texto)
+
+                if resultadoBusca != -1:
+                    print("Escolha uma opção: ")
+                    print("1. Editar o Preco do Livro")
+                    print("2. Apagar Livro")
+                    print("3. Voltar para o menu principal")
+
+                    op2 = self.inpt.input("Digite: ", 1, 3)
+
                     os.system('cls')
 
-                    resultadoBusca = self.gerLivros.buscar(int(op) - 1, texto)
+                    if op2 == 1:
+                        print("===== EDITAR PRECO DO LIVRO =====")
 
-                    if resultadoBusca != -1:
-                        print("Escolha uma opção: ")
-                        print("1. Editar o Preco do Livro")
-                        print("2. Apagar Livro")
-                        print("3. Voltar para o menu principal")
+                        novo_preco = self.inpt.input("Preço: ", 0, 99999999)
 
-                        op2 = input("Digite: ")
-                        os.system('cls')
+                        self.gerLivros.editarPreco(resultadoBusca, novo_preco)
 
-                        if op2 == '1':
-                            print("===== EDITAR PRECO DO LIVRO =====")
-
-                            novo_preco = float(input("Digite o novo preço: "))
-
-                            self.gerLivros.editarPreco(resultadoBusca, novo_preco)
-
-                        elif op2 == '2':
-                            print("===== APAGAR LIVRO =====")
-                            self.gerLivros.apagar(resultadoBusca)
-
-                        elif op2 == '3':
-                            None
-
-                        else:
-                            print("ERRO: Valor inválido!")
-                else:
-                    print("ERRO: Valor inválido!")
+                    elif op2 == 2:
+                        print("===== APAGAR LIVRO =====")
+                        self.gerLivros.apagar(resultadoBusca)
             
-            elif op == '4':
+            elif op == 4:
                 self.gerLivros.backupSql()
             
-            elif op == '5':
+            elif op == 5:
                 self.gerLivros.exportarCsv()
 
-            elif op == '6':
+            elif op == 6:
                 self.gerLivros.importarCsv()
 
-            elif op == '0':
+            elif op == 0:
                 print("Saindo do programa...")
                 break
-            
-            else:
-                print("ERRO: Valor inválido!")
+
+            # else:
+            #     print("ERRO: Valor inválido!")
 
             time.sleep(2)
 

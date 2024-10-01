@@ -4,7 +4,6 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 import shutil
-import time
 
 class Arquivos:
     def __init__(self):
@@ -16,18 +15,8 @@ class Arquivos:
         self.sqlConn = sqlite3.connect(f"{self.dbDir}")
         self.cur = self.sqlConn.cursor()
 
-    def teste(self):
-        # for filename in os.listdir(self.bkpsDir):
-        #     print (os.path.getctime(filename))
-        # return None
-        # files = sorted(os.listdir(self.bkpsDir), key=os.path.getctime)
-
-        # print (oldest = files[0])
-        # print (newest = files[-1])
-
-        for f in os.listdir(self.bkpsDir):
-            print (time.ctime(os.path.getmtime(f)))
-        return None
+    # def teste(self):
+    #     return None
 
     def escreverSql (self, df):
         df.to_sql('tb_livros', self.sqlConn, if_exists='replace', index = False)
@@ -56,21 +45,22 @@ class Arquivos:
 
         return (count)
 
-    # def backupMaisAntigo (self):
-
-    def backupSql (self, df):
+    def backupMaisAntigo (self):
+        return (min([f for f in self.bkpsDir.resolve().glob('**/*') if f.is_file()], key=os.path.getctime))
+        
+    def backupSql (self):
         date_str = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         nomeBkp = "backup_livraria_" + date_str + ".db"
 
-        # if (self.contadorBackups >= 5):
-
+        if (self.contadorBackups() >= 5):
+            os.remove(self.backupMaisAntigo())
 
         shutil.copyfile(self.dbDir, self.bkpsDir/nomeBkp)
 
     def exportarCsv(self, df):
         df.to_csv(self.csvDir, index=False)
     
-    def importarCsv(self, df):
+    def importarCsv(self):
         df = pd.DataFrame()
 
         if os.path.getsize(self.csvDir):
