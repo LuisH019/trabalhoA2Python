@@ -38,7 +38,8 @@ class Menu:
                 autor = input("Autor: ")
                 anoPublicacao = int (self.inpt.input("Ano de Publicacao: ", 0, 3000))
                 preco = self.inpt.input("Preço: ", 0, 99999999)
-                self.gerLivros.criar(titulo, autor, anoPublicacao, preco)
+
+                self.gerLivros.criar(titulo.strip(), autor.strip(), anoPublicacao, preco)
 
             elif op == 2:
                 print("===== LIVROS CADASTRADOS =====")
@@ -77,7 +78,6 @@ class Menu:
                     print("3. Voltar para o menu principal")
 
                     op2 = self.inpt.input("Digite: ", 1, 3)
-
                     os.system('cls')
 
                     if op2 == 1:
